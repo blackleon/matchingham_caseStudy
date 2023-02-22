@@ -1,4 +1,4 @@
-﻿namespace _Project.Scripts.Runtime.Core.Enums
+﻿namespace _Project.Scripts.Runtime.Enums
 {
     public enum UIKey
     {

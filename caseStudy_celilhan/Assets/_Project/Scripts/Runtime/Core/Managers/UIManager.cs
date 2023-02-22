@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using _Project.Scripts.Runtime.Core.Enums;
 using _Project.Scripts.Runtime.Core.Events;
 using _Project.Scripts.Runtime.Core.UI;
+using _Project.Scripts.Runtime.Enums;
 using _Project.Scripts.Runtime.Utils.Class;
 using UnityEngine;
 

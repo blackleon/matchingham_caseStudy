@@ -1,5 +1,6 @@
-﻿using _Project.Scripts.Runtime.Core.Enums;
-using _Project.Scripts.Runtime.Core.Events;
+﻿using _Project.Scripts.Runtime.Core.Events;
+using _Project.Scripts.Runtime.Data.Class;
+using _Project.Scripts.Runtime.Enums;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -10,6 +11,8 @@ namespace _Project.Scripts.Runtime.Core.Managers
     {
         private void Awake()
         {
+            PlayerData.Init();
+            GameData.Init();
         }
 
         private void OnEnable()
@@ -25,7 +28,7 @@ namespace _Project.Scripts.Runtime.Core.Managers
         private async void Start()
         {
             await UniTask.Delay(System.TimeSpan.FromSeconds(2f));
-            
+
             CoreEvents.LoadScene?.Invoke();
         }
 
@@ -36,8 +39,12 @@ namespace _Project.Scripts.Runtime.Core.Managers
             Init();
         }
 
-        private void Init()
+        private async void Init()
         {
+            GameData.Reset();
+
+            await UniTask.Yield();
+
             UIEvents.SetUI?.Invoke(UIKey.Splash, false);
         }
     }
