@@ -1,4 +1,5 @@
-﻿using _Project.Scripts.Runtime.Core.Controller;
+﻿using System;
+using _Project.Scripts.Runtime.Core.Controller;
 using _Project.Scripts.Runtime.Core.Events;
 using _Project.Scripts.Runtime.Data.Class;
 using _Project.Scripts.Runtime.Enums;
@@ -25,33 +26,38 @@ namespace _Project.Scripts.Runtime.Core.Class
                 }
 
                 UIEvents.UpdateTimer?.Invoke((int)remaining);
-                await UniTask.Delay(System.TimeSpan.FromSeconds(1f), DelayType.Realtime);
+                await UniTask.Delay(TimeSpan.FromSeconds(1f), DelayType.Realtime);
             }
         }
 
-        public async void AddMatchableToSlot(MatchableController matchable)
+        public static async void AddMatchableToSlot(MatchableController matchable)
         {
             GameData.PlacedMatchableList.Add(matchable.Key);
             var placeIndex = GameData.PlacedMatchableList.Count - 1;
+            Debug.Log("Contains: " + GameData.PlacedMatchableList.Contains(matchable.Key));
             if (GameData.PlacedMatchableList.Contains(matchable.Key))
             {
                 for (var i = 0; i < GameData.PlacedMatchableList.Count - 1; i++)
                 {
+                    Debug.Log("Equals: " + (GameData.PlacedMatchableList[i] == matchable.Key));
                     if (GameData.PlacedMatchableList[i] == matchable.Key)
                     {
-                        for (var j = i + 1; j < GameData.PlacedMatchableList.Count - 1; j++)
+                        for (var j = i + 1; j < GameData.PlacedMatchableList.Count; j++)
                         {
-                            if (GameData.PlacedMatchableList[i] == matchable.Key)
+                            Debug.Log("Equals: " + (GameData.PlacedMatchableList[j] == matchable.Key));
+                            if (GameData.PlacedMatchableList[j] == matchable.Key)
                                 continue;
                             placeIndex = i;
                             break;
                         }
                     }
 
+                    Debug.Log("Chaned: " + (placeIndex != GameData.PlacedMatchableList.Count - 1));
                     if (placeIndex != GameData.PlacedMatchableList.Count - 1)
                         break;
                 }
 
+                Debug.Log("Swapping");
                 var keyToBePlaced = GameData.PlacedMatchableList[^1];
                 for (var i = GameData.PlacedMatchableList.Count - 1; i > placeIndex; i--)
                 {
@@ -64,14 +70,26 @@ namespace _Project.Scripts.Runtime.Core.Class
 
             CoreEvents.MatchablePlaced?.Invoke(matchable.Key, placeIndex);
 
-            while (CheckMatches())
+            while (true)
             {
-                await UniTask.Delay(System.TimeSpan.FromSeconds(1f));
-                Debug.Log("FoundMatch!");
+                var wasMatchFound = CheckMatches();
+                Debug.Log("wasMatchFound: " + wasMatchFound);
+
+                if (wasMatchFound)
+                {
+                    await UniTask.Yield();
+                }
+                else
+                {
+                    break;
+                }
             }
 
             if (GameData.PlacedMatchableList.Count >= GameData.MatchableSlotCount)
                 Fail();
+
+            foreach (var placedMatchable in GameData.PlacedMatchableList)
+                Debug.Log(placedMatchable);
         }
 
         private static bool CheckMatches()
@@ -83,15 +101,16 @@ namespace _Project.Scripts.Runtime.Core.Class
                 if (GameData.PlacedMatchableList[i] == key)
                 {
                     var count = 1;
-                    for (var j = i + 1; j < GameData.PlacedMatchableList.Count - 1; j++)
+                    for (var j = i + 1; j < GameData.PlacedMatchableList.Count; j++)
                     {
                         if (GameData.PlacedMatchableList[j] == key)
                         {
                             count++;
                             if (count >= 3)
                             {
-                                for (var k = 0; k < 3; k++)
+                                for (var k = 2; k > -1; k--)
                                 {
+                                    Debug.Log(i + " " + k);
                                     GameData.PlacedMatchableList.RemoveAt(i + k);
                                     CoreEvents.MatchableRemoved?.Invoke(key, i + k);
                                 }
@@ -110,6 +129,7 @@ namespace _Project.Scripts.Runtime.Core.Class
                         }
 
                         i = j;
+                        key = GameData.PlacedMatchableList[i];
                         break;
                     }
                 }

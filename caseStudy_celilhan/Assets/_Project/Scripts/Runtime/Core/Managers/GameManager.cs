@@ -39,10 +39,16 @@ namespace _Project.Scripts.Runtime.Core.Managers
             Init();
         }
 
-        private async void Init()
+        private void Init()
         {
             GameData.Reset();
 
+            ResetUI();
+            GameData.State = GameState.Play;
+        }
+
+        private async void ResetUI()
+        {
             await UniTask.Yield();
 
             UIEvents.SetUI?.Invoke(UIKey.Splash, false);

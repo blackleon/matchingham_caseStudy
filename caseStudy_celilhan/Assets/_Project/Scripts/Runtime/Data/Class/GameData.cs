@@ -1,15 +1,18 @@
 ﻿using System.Collections.Generic;
 using _Project.Scripts.Runtime.Data.Object;
 using _Project.Scripts.Runtime.Enums;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 namespace _Project.Scripts.Runtime.Data.Class
 {
     public class GameData
     {
+        public static Camera Cam;
+
         public static bool InputEnabled;
         public static bool Result;
-        public static GameState state;
+        private static GameState state;
 
         public static GameState State
         {
@@ -30,7 +33,7 @@ namespace _Project.Scripts.Runtime.Data.Class
 
         private static MatchableList MatchableList;
 
-        public string GetMatchablePrefab(MatchableKey key)
+        public string GetMatchablePoolKey(MatchableKey key)
         {
             var poolKey = "";
             if (MatchableList.MatchablePrefabs.ContainsKey(key))
@@ -44,17 +47,21 @@ namespace _Project.Scripts.Runtime.Data.Class
             MatchableList = Resources.Load<MatchableList>("Data/matchableList");
             MatchableList.Init();
             PlacedMatchableList = new List<MatchableKey>();
-            
+
             Reset();
         }
 
-        public static void Reset()
+        public async static void Reset()
         {
             State = GameState.Stop;
             Result = false;
             TripleCount = int.MaxValue;
             SucceededTripleCount = 0;
             PlacedMatchableList.Clear();
+
+            await UniTask.Yield();
+
+            Cam = Camera.main;
         }
     }
 }
