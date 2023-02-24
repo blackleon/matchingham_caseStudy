@@ -22,8 +22,8 @@ namespace _Project.Scripts.Runtime.Core.Controller
 
         private void OnUpdate()
         {
-            if(!GameData.InputEnabled) return;
-            
+            if (!GameData.InputEnabled) return;
+
             if (Input.GetMouseButtonDown(0))
             {
                 active = true;

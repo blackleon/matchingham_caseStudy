@@ -1,4 +1,4 @@
-﻿using _Project.Scripts.Runtime.Enums;
+﻿using _Project.Scripts.Runtime.Core.Controller;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -12,11 +12,9 @@ namespace _Project.Scripts.Runtime.Core.Events
         
         public static UnityAction<Collider> MatchClickInput;
         public static UnityAction<Collider> MatchableSelected;
-        
-        public static UnityAction<Transform> MoveMatchableToSlot;
 
-        public static UnityAction<MatchableKey, int> MatchablePlaced;
-        public static UnityAction<MatchableKey, int, int> MatchableMoved;
-        public static UnityAction<MatchableKey, int> MatchableRemoved;
+        public static UnityAction<MatchableController, int> MatchablePlaced;
+        public static UnityAction<int, int, bool> MatchableMoved;
+        public static UnityAction<int, int> MatchableRemoved;
     }
 }

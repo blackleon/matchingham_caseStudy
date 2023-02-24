@@ -6,6 +6,7 @@ namespace _Project.Scripts.Editor
 {
     public class DataManagement
     {
+#if UNITY_EDITOR
         [MenuItem("intLeon/Delete Data")]
         public static void DeleteData()
         {
@@ -13,7 +14,7 @@ namespace _Project.Scripts.Editor
             var files = Directory.GetFiles(Application.persistentDataPath, "*Data", SearchOption.TopDirectoryOnly);
             foreach (var file in files)
                 File.Delete(file);
-            
+
             Debug.Log("Deleted Data");
         }
 
@@ -23,5 +24,6 @@ namespace _Project.Scripts.Editor
             Debug.Log("Opening Data Path");
             Application.OpenURL(Application.persistentDataPath);
         }
+#endif
     }
 }

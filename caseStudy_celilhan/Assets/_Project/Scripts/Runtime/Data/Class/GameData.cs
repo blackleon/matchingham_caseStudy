@@ -33,7 +33,7 @@ namespace _Project.Scripts.Runtime.Data.Class
 
         private static MatchableList MatchableList;
 
-        public string GetMatchablePoolKey(MatchableKey key)
+        public static string GetMatchablePoolKey(MatchableKey key)
         {
             var poolKey = "";
             if (MatchableList.MatchablePrefabs.ContainsKey(key))
@@ -54,8 +54,6 @@ namespace _Project.Scripts.Runtime.Data.Class
         public async static void Reset()
         {
             State = GameState.Stop;
-            Result = false;
-            TripleCount = int.MaxValue;
             SucceededTripleCount = 0;
             PlacedMatchableList.Clear();
 

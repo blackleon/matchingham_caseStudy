@@ -27,7 +27,7 @@ namespace _Project.Scripts.Runtime.Core.Managers
 
         private async void Start()
         {
-            await UniTask.Delay(System.TimeSpan.FromSeconds(2f));
+            await UniTask.Delay(System.TimeSpan.FromSeconds(0.5f));
 
             CoreEvents.LoadScene?.Invoke();
         }

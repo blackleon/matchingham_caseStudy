@@ -795,6 +795,18 @@ MonoBehaviour:
     Value2:
       Value1: {fileID: 1214009186613561166, guid: a21b7a68f60dd044b9371fc4cb1f688e, type: 3}
       Value2: 3
+  - Value1: orange
+    Value2:
+      Value1: {fileID: 423326942005035802, guid: d3cefecefda006e4b9a550ba670e908c, type: 3}
+      Value2: 3
+  - Value1: kiwi
+    Value2:
+      Value1: {fileID: 2908825347077915025, guid: 443db05ec631ae244bf8679ed7947cdd, type: 3}
+      Value2: 3
+  - Value1: coconut
+    Value2:
+      Value1: {fileID: 9169128615091885095, guid: eb0703435daff124d961710225a6ce9c, type: 3}
+      Value2: 3
 --- !u!1 &1942961697
 GameObject:
   m_ObjectHideFlags: 0

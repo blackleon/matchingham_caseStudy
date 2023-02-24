@@ -76,8 +76,8 @@ Rigidbody:
   m_GameObject: {fileID: 2908825347077915025}
   serializedVersion: 2
   m_Mass: 1
-  m_Drag: 1
-  m_AngularDrag: 1
+  m_Drag: 0.1
+  m_AngularDrag: 0.1
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
@@ -97,8 +97,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Key: 4
   rig: {fileID: 2908825347077915028}
-  visual: {fileID: 2908825347579456901}
   col: {fileID: 2908825347350845519}
+  visual: {fileID: 2908825347579456901}
+  id: 0
+  matched: 0
 --- !u!1 &2908825347350845513
 GameObject:
   m_ObjectHideFlags: 0

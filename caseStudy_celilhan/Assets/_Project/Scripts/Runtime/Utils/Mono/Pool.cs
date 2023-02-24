@@ -48,7 +48,7 @@ namespace _Project.Scripts.Runtime.Utils.Mono
                 Return(givenObjects[i]);
         }
 
-        private static GameObject Get(string objectKey)
+        public static GameObject Get(string objectKey, Transform parent = null, bool resetTransform = true)
         {
             if (!instance.pool.ContainsKey(objectKey)) return null;
 
@@ -56,14 +56,20 @@ namespace _Project.Scripts.Runtime.Utils.Mono
                 SpawnObject(objectKey);
 
             var obj = instance.pool[objectKey].Dequeue();
-            obj.transform.parent = null;
+            obj.transform.parent = parent;
+
+            if (resetTransform)
+            {
+                obj.transform.localPosition = Vector3.zero;
+                obj.transform.localEulerAngles = Vector3.zero;
+            }
 
             instance.givenObjects.Add(obj);
 
             return obj;
         }
 
-        private static void Return(GameObject obj, bool destroyIfKeyIsNotPresent = true)
+        public static void Return(GameObject obj, bool destroyIfKeyIsNotPresent = true)
         {
             obj.SetActive(false);
             if (instance.pool.ContainsKey(obj.name))

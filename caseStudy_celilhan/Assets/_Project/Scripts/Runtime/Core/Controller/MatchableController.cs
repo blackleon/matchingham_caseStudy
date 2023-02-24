@@ -12,15 +12,15 @@ namespace _Project.Scripts.Runtime.Core.Controller
     {
         public MatchableKey Key;
         [SerializeField] private Rigidbody rig;
-        [SerializeField] private Transform visual;
         [SerializeField] private Collider col;
 
-        private int id;
+        [SerializeField] private Transform visual;
+        public int id;
+        public bool matched;
 
         private void Awake()
         {
             id = gameObject.GetHashCode();
-            Debug.Log("id: " + id);
         }
 
         private void OnEnable()
@@ -41,6 +41,7 @@ namespace _Project.Scripts.Runtime.Core.Controller
             {
                 if (!DOTween.IsTweening("spinMatchable" + id)) return;
 
+                rig.isKinematic = false;
                 DOTween.Kill("moveMatchable" + id);
                 DOTween.Kill("spinMatchable" + id);
                 visual.DOLocalMove(Vector3.zero, 0.1f).SetId("moveMatchableReset" + id);
@@ -51,6 +52,7 @@ namespace _Project.Scripts.Runtime.Core.Controller
 
             if (DOTween.IsTweening("spinMatchable" + id)) return;
 
+            rig.isKinematic = true;
             DOTween.Kill("moveMatchableReset" + id);
             DOTween.Kill("spinMatchableReset" + id);
             var pos = transform.position - GameData.Cam.transform.forward * 2.5f;
@@ -72,13 +74,39 @@ namespace _Project.Scripts.Runtime.Core.Controller
             DOTween.Kill("moveMatchable" + id);
             DOTween.Kill("spinMatchable" + id);
 
+            visual.DOScale(0.5f, 0.1f).SetId("moveMatchableReset" + id);
             visual.DOLocalMove(Vector3.zero, 0.1f).SetId("moveMatchableReset" + id);
             visual.DORotate(Vector3.zero, 0.1f, RotateMode.FastBeyond360).SetId("spinMatchableReset" + id);
 
             await UniTask.Delay(System.TimeSpan.FromSeconds(0.1f));
 
-            CoreEvents.MoveMatchableToSlot?.Invoke(transform);
             GameLogic.AddMatchableToSlot(this);
+        }
+
+        public void ReturnToPool()
+        {
+            rig.isKinematic = true;
+            col.enabled = false;
+            
+            DOTween.Kill("moveMatchableReset" + id);
+            DOTween.Kill("spinMatchableReset" + id);
+            DOTween.Kill("moveMatchable" + id);
+            DOTween.Kill("spinMatchable" + id);
+            DOTween.Kill("moveSlot" + id);
+            DOTween.Kill("matched" + id);
+        }
+        
+        public void ResetMatchable()
+        {
+            matched = false;
+            
+            rig.isKinematic = false;
+            col.enabled = true;
+
+            visual.transform.localPosition = Vector3.zero;
+            visual.transform.localEulerAngles = Vector3.zero;
+            visual.transform.localScale = Vector3.one;
+            transform.localScale = Vector3.one;
         }
     }
 }
