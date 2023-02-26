@@ -65,7 +65,9 @@ namespace _Project.Scripts.Runtime.Core.Managers
             foreach (var child in matchable.gameObjects)
                 child.gameObject.layer = LayerMask.NameToLayer("InSlot");
 
-            matchable.transform.DOMove(slot.position - slot.forward * 0.25f, 0.1f).SetId("moveSlot" + matchable.id);
+            matchable.transform.DOMove(slot.position - slot.forward * 0.25f - slot.up * 0.25f, 0.1f).SetId("moveSlot" + matchable.id);
+            matchable.visual.DORotate(Quaternion.LookRotation(transform.forward, transform.up).eulerAngles, 0.1f)
+                .SetId("moveSlot" + matchable.id);
             slotPairs[slots[target]] = matchable;
         }
 
@@ -82,7 +84,7 @@ namespace _Project.Scripts.Runtime.Core.Managers
 
             DOTween.Kill("moveSlot" + matchable.id);
 
-            matchable.transform.DOMove(targetSlot.position - targetSlot.forward * 0.25f, 0.1f)
+            matchable.transform.DOMove(targetSlot.position - targetSlot.forward * 0.25f - targetSlot.up * 0.25f, 0.1f)
                 .SetId("moveSlot" + matchable.id);
         }
 
@@ -96,7 +98,7 @@ namespace _Project.Scripts.Runtime.Core.Managers
             DOTween.Kill("moveSlot" + matchable.id);
 
             matchable.transform
-                .DOMove(moveTargetSlot.position - targetSlot.forward * 0.25f + Random.insideUnitSphere * 0.125f, 0.25f)
+                .DOMove(moveTargetSlot.position - targetSlot.forward * 0.25f - targetSlot.up * 0.25f + Random.insideUnitSphere * 0.125f, 0.25f)
                 .SetId("matched" + matchable.id);
             matchable.transform.DOScale(2f, 0.05f).SetId("matched" + matchable.id);
             matchable.transform.DOScale(0f, 0.2f).SetId("matched" + matchable.id).SetDelay(0.05f).OnComplete(() =>

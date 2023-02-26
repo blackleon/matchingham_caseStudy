@@ -15,9 +15,41 @@ MonoBehaviour:
   serializedMatchableList:
   - Value1: 1
     Value2: apple
-  - Value1: 3
+  - Value1: 0
     Value2: orange
-  - Value1: 4
+  - Value1: 11
     Value2: kiwi
-  - Value1: 6
+  - Value1: 12
     Value2: coconut
+  - Value1: 2
+    Value2: cherry
+  - Value1: 3
+    Value2: watermelon
+  - Value1: 4
+    Value2: pomegranate
+  - Value1: 5
+    Value2: pear
+  - Value1: 6
+    Value2: peach
+  - Value1: 7
+    Value2: mango
+  - Value1: 8
+    Value2: fig
+  - Value1: 9
+    Value2: persimmon
+  - Value1: 10
+    Value2: lemon
+  - Value1: 13
+    Value2: strawberry
+  - Value1: 14
+    Value2: pineapple
+  - Value1: 15
+    Value2: raspberry
+  - Value1: 16
+    Value2: blueberry
+  - Value1: 17
+    Value2: melon
+  - Value1: 18
+    Value2: banana
+  - Value1: 19
+    Value2: dragonfruit

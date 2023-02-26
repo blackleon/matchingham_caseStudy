@@ -793,19 +793,83 @@ MonoBehaviour:
   serializedPool:
   - Value1: apple
     Value2:
-      Value1: {fileID: 1214009186613561166, guid: a21b7a68f60dd044b9371fc4cb1f688e, type: 3}
+      Value1: {fileID: 3088956350508408484, guid: e0dd47163694d694d98df8908f1a03fa, type: 3}
       Value2: 3
-  - Value1: orange
+  - Value1: banana
     Value2:
-      Value1: {fileID: 423326942005035802, guid: d3cefecefda006e4b9a550ba670e908c, type: 3}
+      Value1: {fileID: 6882638432088758527, guid: 240caa8e36add8d4ca7c933b9da46199, type: 3}
       Value2: 3
-  - Value1: kiwi
+  - Value1: blueberry
     Value2:
-      Value1: {fileID: 2908825347077915025, guid: 443db05ec631ae244bf8679ed7947cdd, type: 3}
+      Value1: {fileID: 2587100917603665838, guid: ec32b7542f18af7479bde06e41517848, type: 3}
+      Value2: 3
+  - Value1: cherry
+    Value2:
+      Value1: {fileID: 4369524879050401619, guid: 057fa10cf668f714bb928107a267aa99, type: 3}
       Value2: 3
   - Value1: coconut
     Value2:
-      Value1: {fileID: 9169128615091885095, guid: eb0703435daff124d961710225a6ce9c, type: 3}
+      Value1: {fileID: 1126049463072452758, guid: eb0703435daff124d961710225a6ce9c, type: 3}
+      Value2: 3
+  - Value1: dragonfruit
+    Value2:
+      Value1: {fileID: 7051583336295127126, guid: 96f7e333a1e11a0488d4782354717d9a, type: 3}
+      Value2: 3
+  - Value1: fig
+    Value2:
+      Value1: {fileID: 6251191387420912628, guid: 885c4ed007d39544eabe9417f69dc5ea, type: 3}
+      Value2: 3
+  - Value1: kiwi
+    Value2:
+      Value1: {fileID: 191179825650891817, guid: be6e1430c2ec7114fb91031e47ea01d2, type: 3}
+      Value2: 3
+  - Value1: lemon
+    Value2:
+      Value1: {fileID: 8916699248051226053, guid: 371f50a961d2f3a4c919ebcef1f1acbd, type: 3}
+      Value2: 3
+  - Value1: mango
+    Value2:
+      Value1: {fileID: 769148233221939258, guid: 56fe55cb106fe664fa868b1c27aaf0de, type: 3}
+      Value2: 3
+  - Value1: orange
+    Value2:
+      Value1: {fileID: 4863027164782207794, guid: d3cefecefda006e4b9a550ba670e908c, type: 3}
+      Value2: 3
+  - Value1: peach
+    Value2:
+      Value1: {fileID: 6825196291082664682, guid: 37f8a1296aa3a0c44bcbf0e1f7d52619, type: 3}
+      Value2: 3
+  - Value1: pear
+    Value2:
+      Value1: {fileID: 7978069756598103833, guid: 512314182a989534c9ed0d553301d15a, type: 3}
+      Value2: 3
+  - Value1: persimmon
+    Value2:
+      Value1: {fileID: 6643831128158952791, guid: bedc2408ad394bf46b91503e502dbf94, type: 3}
+      Value2: 3
+  - Value1: pineapple
+    Value2:
+      Value1: {fileID: 1233117514614944088, guid: 96d78da2fca3eff42b039eb6c023d720, type: 3}
+      Value2: 3
+  - Value1: pomegranate
+    Value2:
+      Value1: {fileID: 2624440489203921483, guid: 5dba1490c4e764a479d80902f19f2718, type: 3}
+      Value2: 3
+  - Value1: raspberry
+    Value2:
+      Value1: {fileID: 936087316435201144, guid: 1895d268d92316f4d821ec7ce2561d8b, type: 3}
+      Value2: 3
+  - Value1: strawberry
+    Value2:
+      Value1: {fileID: 7047078644376400230, guid: b37d206d3c62489449365d26a64a8e61, type: 3}
+      Value2: 3
+  - Value1: watermelon
+    Value2:
+      Value1: {fileID: 6798815611075110681, guid: 5e4bee97065c38d4285fcc4c5a903bc8, type: 3}
+      Value2: 3
+  - Value1: melon
+    Value2:
+      Value1: {fileID: 879763118629201220, guid: d02810a184240bc45b277022649a1e65, type: 3}
       Value2: 3
 --- !u!1 &1942961697
 GameObject:

@@ -11,14 +11,14 @@ namespace _Project.Scripts.Runtime.Core.Controller
     public class MatchableController : MonoBehaviour
     {
         public MatchableKey Key;
-        [SerializeField] private Rigidbody rig;
-        [SerializeField] private Collider col;
+        public Rigidbody rig;
+        public Collider col;
 
-        [SerializeField] private Transform visual;
-        public int id;
-        public bool matched;
+        public Transform visual;
+        [HideInInspector] public int id;
+        [HideInInspector] public bool matched;
 
-        public Transform[] gameObjects;
+        [HideInInspector] public Transform[] gameObjects;
 
         private void Awake()
         {
@@ -44,11 +44,11 @@ namespace _Project.Scripts.Runtime.Core.Controller
             {
                 if (!DOTween.IsTweening("spinMatchable" + id)) return;
 
-                rig.isKinematic = false;
                 DOTween.Kill("moveMatchable" + id);
                 DOTween.Kill("spinMatchable" + id);
                 visual.DOLocalMove(Vector3.zero, 0.1f).SetId("moveMatchableReset" + id);
-                visual.DORotate(Vector3.zero, 0.1f, RotateMode.FastBeyond360).SetId("spinMatchableReset" + id);
+                visual.DOLocalRotate(Vector3.zero, 0.1f, RotateMode.FastBeyond360).SetId("spinMatchableReset" + id)
+                    .OnComplete(() => rig.isKinematic = false);
 
                 return;
             }
@@ -60,7 +60,7 @@ namespace _Project.Scripts.Runtime.Core.Controller
             DOTween.Kill("spinMatchableReset" + id);
             var pos = transform.position - GameData.Cam.transform.forward * 2.5f;
             visual.DOMove(pos, 0.25f).SetId("moveMatchable" + id);
-            visual.DORotate(Vector3.up * (Random.Range(0, 2) == 0 ? -360f : 360f), 5f, RotateMode.FastBeyond360)
+            visual.DOLocalRotate(Vector3.up * (Random.Range(0, 2) == 0 ? -360f : 360f), 5f, RotateMode.FastBeyond360)
                 .SetRelative().SetEase(Ease.Linear).SetLoops(-1, LoopType.Incremental).SetId("spinMatchable" + id);
         }
 
@@ -79,7 +79,7 @@ namespace _Project.Scripts.Runtime.Core.Controller
 
             visual.DOScale(0.5f, 0.1f).SetId("moveMatchableReset" + id);
             visual.DOLocalMove(Vector3.zero, 0.1f).SetId("moveMatchableReset" + id);
-            visual.DORotate(Vector3.zero, 0.1f, RotateMode.FastBeyond360).SetId("spinMatchableReset" + id);
+            visual.DOLocalRotate(Vector3.zero, 0.1f, RotateMode.FastBeyond360).SetId("spinMatchableReset" + id);
 
             await UniTask.Delay(System.TimeSpan.FromSeconds(0.1f));
 
