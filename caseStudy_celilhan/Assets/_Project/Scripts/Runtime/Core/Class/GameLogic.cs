@@ -144,6 +144,7 @@ namespace _Project.Scripts.Runtime.Core.Class
         private static void Fail()
         {
             GameData.Result = false;
+
             Debug.Log("Fail!");
             End();
         }
@@ -151,6 +152,8 @@ namespace _Project.Scripts.Runtime.Core.Class
         private static void Win()
         {
             GameData.Result = true;
+            PlayerData.Level++;
+
             Debug.Log("Win!");
             End();
         }
