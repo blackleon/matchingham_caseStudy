@@ -18,9 +18,12 @@ namespace _Project.Scripts.Runtime.Core.Controller
         public int id;
         public bool matched;
 
+        public Transform[] gameObjects;
+
         private void Awake()
         {
             id = gameObject.GetHashCode();
+            gameObjects = gameObject.GetComponentsInChildren<Transform>();
         }
 
         private void OnEnable()
@@ -85,9 +88,14 @@ namespace _Project.Scripts.Runtime.Core.Controller
 
         public void ReturnToPool()
         {
-            rig.isKinematic = true;
-            col.enabled = false;
-            
+            matched = false;
+
+            rig.isKinematic = false;
+            col.enabled = true;
+
+            foreach (var child in gameObjects)
+                child.gameObject.layer = LayerMask.NameToLayer("Matchable");
+
             DOTween.Kill("moveMatchableReset" + id);
             DOTween.Kill("spinMatchableReset" + id);
             DOTween.Kill("moveMatchable" + id);
@@ -95,14 +103,9 @@ namespace _Project.Scripts.Runtime.Core.Controller
             DOTween.Kill("moveSlot" + id);
             DOTween.Kill("matched" + id);
         }
-        
+
         public void ResetMatchable()
         {
-            matched = false;
-            
-            rig.isKinematic = false;
-            col.enabled = true;
-
             visual.transform.localPosition = Vector3.zero;
             visual.transform.localEulerAngles = Vector3.zero;
             visual.transform.localScale = Vector3.one;

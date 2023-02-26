@@ -39,13 +39,13 @@ namespace _Project.Scripts.Runtime.Core.Managers
                     .GetComponent<MatchableController>();
                 matchable.ResetMatchable();
 
-                matchable.transform.position = transform.position + new Vector3(Random.Range(-size.x, size.x) * 0.5f,
-                    5f, Random.Range(-size.y, size.y) * 0.5f);
+                matchable.transform.position = transform.position + new Vector3(
+                    Random.Range(-size.x, size.x) * 0.5f, Random.Range(3f, 5f), Random.Range(-size.y, size.y) * 0.5f);
                 matchable.transform.localEulerAngles = Random.insideUnitSphere * 90f;
 
                 matchable.gameObject.SetActive(true);
 
-                await UniTask.Delay(System.TimeSpan.FromSeconds(0.3333f));
+                await UniTask.Delay(System.TimeSpan.FromSeconds(0.1f));
             }
         }
 

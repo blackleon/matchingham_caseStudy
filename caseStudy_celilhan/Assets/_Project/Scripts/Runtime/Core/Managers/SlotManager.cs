@@ -62,8 +62,10 @@ namespace _Project.Scripts.Runtime.Core.Managers
 
             DOTween.Kill("moveSlot" + matchable.id);
 
-            matchable.transform.DOMove(slot.position - slot.forward * 0.25f, 0.1f)
-                .SetId("moveSlot" + matchable.id);
+            foreach (var child in matchable.gameObjects)
+                child.gameObject.layer = LayerMask.NameToLayer("InSlot");
+
+            matchable.transform.DOMove(slot.position - slot.forward * 0.25f, 0.1f).SetId("moveSlot" + matchable.id);
             slotPairs[slots[target]] = matchable;
         }
 
