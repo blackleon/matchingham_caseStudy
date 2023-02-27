@@ -11,16 +11,19 @@ namespace _Project.Scripts.Runtime.Data.Class
             set => PlayerPrefs.SetInt("Level", value);
         }
 
-        public static int Money
-        {
-            get => PlayerPrefs.GetInt("Money", 0);
-            set
-            {
-                var oldMoney = Money;
-                PlayerPrefs.SetInt("Money", value);
+        private static int money;
 
-                CoreEvents.Moneychanged?.Invoke(Money - oldMoney);
-            }
+        public static void SetMoney(int _money, Vector3 pos)
+        {
+            var change = _money - money;
+            money = _money;
+            PlayerPrefs.SetInt("Money", money);
+            CoreEvents.Moneychanged?.Invoke(change, pos);
+        }
+
+        public static int GetMoney()
+        {
+            return money;
         }
 
         public static bool Audio
@@ -37,6 +40,7 @@ namespace _Project.Scripts.Runtime.Data.Class
 
         public static void Init()
         {
+            money = PlayerPrefs.GetInt("Money", 0);
         }
     }
 }

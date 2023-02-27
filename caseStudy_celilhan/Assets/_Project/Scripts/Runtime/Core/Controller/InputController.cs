@@ -2,6 +2,7 @@
 using _Project.Scripts.Runtime.Data.Class;
 using _Project.Scripts.Runtime.Utils.Mono;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace _Project.Scripts.Runtime.Core.Controller
 {
@@ -50,7 +51,8 @@ namespace _Project.Scripts.Runtime.Core.Controller
             {
                 var ray = GameData.Cam.ScreenPointToRay(Input.mousePosition + (Vector3.forward));
                 bool hitem = false;
-                if (Physics.Raycast(ray, out var hit, float.MaxValue, matchableMask))
+                if (!EventSystem.current.IsPointerOverGameObject() &&
+                    Physics.Raycast(ray, out var hit, float.MaxValue, matchableMask))
                 {
                     hitem = true;
                     CoreEvents.MatchableSelected?.Invoke(hit.collider);

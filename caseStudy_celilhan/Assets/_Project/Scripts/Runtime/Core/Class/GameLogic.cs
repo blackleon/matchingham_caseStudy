@@ -1,5 +1,6 @@
 ﻿using _Project.Scripts.Runtime.Core.Controller;
 using _Project.Scripts.Runtime.Core.Events;
+using _Project.Scripts.Runtime.Core.Managers;
 using _Project.Scripts.Runtime.Data.Class;
 using _Project.Scripts.Runtime.Enums;
 using Cysharp.Threading.Tasks;
@@ -26,7 +27,16 @@ namespace _Project.Scripts.Runtime.Core.Class
                 }
 
                 UIEvents.UpdateTimer?.Invoke((int)remaining);
-                await UniTask.Delay(System.TimeSpan.FromSeconds(1f), DelayType.Realtime);
+                await UniTask.Delay(System.TimeSpan.FromSeconds(0.5f), DelayType.Realtime);
+
+                if (GameData.State == GameState.Pause)
+                {
+                    await UniTask.WaitUntil(() => GameData.State == GameState.Play);
+                }
+                else if (GameData.State == GameState.Stop || GameData.State == GameState.End)
+                {
+                    break;
+                }
             }
         }
 
@@ -116,8 +126,10 @@ namespace _Project.Scripts.Runtime.Core.Class
                                 }
 
                                 GameData.SucceededTripleCount++;
-                                Debug.Log("Succeeded Count: " + GameData.SucceededTripleCount + ", Total Count: " +
-                                          GameData.TripleCount);
+
+                                var source = GameData.Cam.WorldToScreenPoint(SlotManager.Slots[i + 1].position);
+                                PlayerData.SetMoney(PlayerData.GetMoney() + (1 + GameData.ComboCount), source);
+                                GameData.ComboCount++;
                                 if (GameData.SucceededTripleCount >= GameData.TripleCount)
                                     Win();
 
@@ -143,15 +155,12 @@ namespace _Project.Scripts.Runtime.Core.Class
 
         private static void Fail()
         {
-            GameData.Result = false;
-
             Debug.Log("Fail!");
             End();
         }
 
         private static void Win()
         {
-            GameData.Result = true;
             PlayerData.Level++;
 
             Debug.Log("Win!");
@@ -161,6 +170,12 @@ namespace _Project.Scripts.Runtime.Core.Class
         private static async void End()
         {
             GameData.State = GameState.End;
+            Time.timeScale = 1f;
+
+            await UniTask.Delay(System.TimeSpan.FromSeconds(1f + GameData.ComboCount * 0.05f));
+
+            UIEvents.SetUI?.Invoke(UIKey.Main, false);
+            UIEvents.SetUI?.Invoke(UIKey.Settings, false);
 
             await UniTask.Delay(System.TimeSpan.FromSeconds(1f));
 

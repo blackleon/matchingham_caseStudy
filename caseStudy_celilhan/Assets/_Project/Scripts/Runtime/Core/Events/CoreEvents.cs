@@ -8,13 +8,15 @@ namespace _Project.Scripts.Runtime.Core.Events
     {
         public static UnityAction LoadScene;
 
-        public static UnityAction<int> Moneychanged;
-        
+        public static UnityAction<int, Vector3> Moneychanged;
+
         public static UnityAction<Collider> MatchClickInput;
         public static UnityAction<Collider> MatchableSelected;
 
         public static UnityAction<MatchableController, int> MatchablePlaced;
         public static UnityAction<int, int, bool> MatchableMoved;
         public static UnityAction<int, int> MatchableRemoved;
+
+        public static UnityAction ComboChanged;
     }
 }

@@ -4,6 +4,7 @@
     {
         None,
         Splash,
-        Main
+        Main,
+        Settings,
     }
 }

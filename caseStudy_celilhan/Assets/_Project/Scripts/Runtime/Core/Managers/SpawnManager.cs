@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using _Project.Scripts.Runtime.Core.Class;
 using _Project.Scripts.Runtime.Core.Controller;
 using _Project.Scripts.Runtime.Data.Class;
 using _Project.Scripts.Runtime.Enums;
@@ -20,15 +21,15 @@ namespace _Project.Scripts.Runtime.Core.Managers
 
         private async void SpawnMatchables()
         {
-            GameData.TripleCount = matchableListToSpawn.Count;
+            GameData.TripleCount = Mathf.Min(matchableListToSpawn.Count, PlayerData.Level + 3);
 
             await UniTask.Delay(System.TimeSpan.FromSeconds(0.5f));
 
             var randomSpawn = new List<MatchableKey>();
-            foreach (var matchableKey in matchableListToSpawn)
+            for (var i = 0; i < Mathf.Min(matchableListToSpawn.Count, PlayerData.Level + 3); i++)
             {
-                for (var i = 0; i < 3; i++)
-                    randomSpawn.Add(matchableKey);
+                for (var j = 0; j < 3; j++)
+                    randomSpawn.Add(matchableListToSpawn[i]);
             }
 
             randomSpawn = Shuffle(randomSpawn);
@@ -44,9 +45,12 @@ namespace _Project.Scripts.Runtime.Core.Managers
                 matchable.transform.localEulerAngles = Random.insideUnitSphere * 90f;
 
                 matchable.gameObject.SetActive(true);
+                matchable.rig.AddForce(Vector3.up * -5f, ForceMode.VelocityChange);
 
-                await UniTask.Delay(System.TimeSpan.FromSeconds(0.1f));
+                await UniTask.Delay(System.TimeSpan.FromSeconds(0.025f));
             }
+
+            GameLogic.StartTimer(GameData.TripleCount * 10f);
         }
 
         private List<MatchableKey> Shuffle(List<MatchableKey> list)

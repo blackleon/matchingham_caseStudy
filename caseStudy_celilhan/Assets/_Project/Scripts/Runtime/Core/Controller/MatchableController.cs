@@ -17,6 +17,7 @@ namespace _Project.Scripts.Runtime.Core.Controller
         public Transform visual;
         [HideInInspector] public int id;
         [HideInInspector] public bool matched;
+        [HideInInspector] public bool placed;
 
         [HideInInspector] public Transform[] gameObjects;
 
@@ -40,6 +41,7 @@ namespace _Project.Scripts.Runtime.Core.Controller
 
         private void OnMatchClickInput(Collider _col)
         {
+            if(placed) return;
             if (_col != col)
             {
                 if (!DOTween.IsTweening("spinMatchable" + id)) return;
@@ -49,6 +51,7 @@ namespace _Project.Scripts.Runtime.Core.Controller
                 visual.DOLocalMove(Vector3.zero, 0.1f).SetId("moveMatchableReset" + id);
                 visual.DOLocalRotate(Vector3.zero, 0.1f, RotateMode.FastBeyond360).SetId("spinMatchableReset" + id)
                     .OnComplete(() => rig.isKinematic = false);
+                visual.GetChild(0).DOLocalRotate(Vector3.zero, 0.1f, RotateMode.FastBeyond360).SetId("spinMatchableReset" + id);
 
                 return;
             }
@@ -58,44 +61,45 @@ namespace _Project.Scripts.Runtime.Core.Controller
             rig.isKinematic = true;
             DOTween.Kill("moveMatchableReset" + id);
             DOTween.Kill("spinMatchableReset" + id);
-            var pos = transform.position - GameData.Cam.transform.forward * 2.5f;
+            var pos = transform.position + (GameData.Cam.transform.position - transform.position).normalized * 2.5f;
             visual.DOMove(pos, 0.25f).SetId("moveMatchable" + id);
-            visual.DOLocalRotate(Vector3.up * (Random.Range(0, 2) == 0 ? -360f : 360f), 5f, RotateMode.FastBeyond360)
-                .SetRelative().SetEase(Ease.Linear).SetLoops(-1, LoopType.Incremental).SetId("spinMatchable" + id);
+            visual.DORotate(
+                Quaternion.LookRotation(GameData.Cam.transform.up + GameData.Cam.transform.forward,
+                    GameData.Cam.transform.up - GameData.Cam.transform.forward).eulerAngles, 0.25f, RotateMode.FastBeyond360).SetId("spinMatchable" + id).OnComplete(
+                () =>
+                {
+                    visual.GetChild(0).DOLocalRotate(Vector3.up * (Random.Range(0, 2) == 0 ? -360f : 360f), 5f, RotateMode.FastBeyond360)
+                        .SetRelative().SetEase(Ease.Linear).SetLoops(-1, LoopType.Incremental).SetId("spinMatchable" + id);
+                });
         }
 
         private async void OnMatchableSelected(Collider _col)
         {
+            if(placed) return;
             if (_col != col)
             {
+                rig.WakeUp();
+                DOTween.Kill("moveMatchable" + id);
+                DOTween.Kill("spinMatchable" + id);
                 return;
             }
 
             rig.isKinematic = true;
             col.enabled = false;
-
             DOTween.Kill("moveMatchable" + id);
             DOTween.Kill("spinMatchable" + id);
 
             visual.DOScale(0.5f, 0.1f).SetId("moveMatchableReset" + id);
             visual.DOLocalMove(Vector3.zero, 0.1f).SetId("moveMatchableReset" + id);
-            visual.DOLocalRotate(Vector3.zero, 0.1f, RotateMode.FastBeyond360).SetId("spinMatchableReset" + id);
+            visual.GetChild(0).DOLocalRotate(Vector3.zero, 0.1f, RotateMode.FastBeyond360).SetId("spinMatchableReset" + id);
 
-            await UniTask.Delay(System.TimeSpan.FromSeconds(0.1f));
+            placed = true;
 
             GameLogic.AddMatchableToSlot(this);
         }
 
         public void ReturnToPool()
         {
-            matched = false;
-
-            rig.isKinematic = false;
-            col.enabled = true;
-
-            foreach (var child in gameObjects)
-                child.gameObject.layer = LayerMask.NameToLayer("Matchable");
-
             DOTween.Kill("moveMatchableReset" + id);
             DOTween.Kill("spinMatchableReset" + id);
             DOTween.Kill("moveMatchable" + id);
@@ -106,9 +110,21 @@ namespace _Project.Scripts.Runtime.Core.Controller
 
         public void ResetMatchable()
         {
-            visual.transform.localPosition = Vector3.zero;
-            visual.transform.localEulerAngles = Vector3.zero;
-            visual.transform.localScale = Vector3.one;
+            ReturnToPool();
+
+            matched = false;
+            placed = false;
+
+            rig.isKinematic = false;
+            col.enabled = true;
+
+            foreach (var child in gameObjects)
+                child.gameObject.layer = LayerMask.NameToLayer("Matchable");
+
+            visual.localPosition = Vector3.zero;
+            visual.localEulerAngles = Vector3.zero;
+            visual.GetChild(0).localEulerAngles = Vector3.zero;
+            visual.localScale = Vector3.one;
             transform.localScale = Vector3.one;
         }
     }

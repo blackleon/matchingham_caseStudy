@@ -52,6 +52,10 @@ namespace _Project.Scripts.Runtime.Core.Managers
             await UniTask.Yield();
 
             UIEvents.SetUI?.Invoke(UIKey.Splash, false);
+
+            await UniTask.Delay(System.TimeSpan.FromSeconds(1f));
+
+            UIEvents.SetUI?.Invoke(UIKey.Main, true);
         }
     }
 }
