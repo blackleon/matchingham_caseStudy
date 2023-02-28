@@ -96,10 +96,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Key: 1
   rig: {fileID: 2025832701482372572}
-  col: {fileID: 2025832701755298823}
+  col: {fileID: 8763283626698871420}
+  trig: {fileID: 0}
   visual: {fileID: 2025832700165305010}
   id: 0
   matched: 0
+  placed: 0
   gameObjects: []
 --- !u!1 &2025832701755298817
 GameObject:
@@ -110,7 +112,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2025832701755298822}
-  - component: {fileID: 2025832701755298823}
+  - component: {fileID: 8763283626698871420}
   m_Layer: 6
   m_Name: Collider
   m_TagString: Untagged
@@ -133,7 +135,7 @@ Transform:
   m_Father: {fileID: 2025832701482372574}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!135 &2025832701755298823
+--- !u!135 &8763283626698871420
 SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

@@ -28,11 +28,17 @@ namespace _Project.Scripts.Editor
             var matchableBase = Object.Instantiate(prefab);
             var matchable = Object.Instantiate(selected, matchableBase.visual);
             var col = matchableBase.col.gameObject.AddComponent<MeshCollider>();
+            col.transform.position = matchable.transform.position;
             col.convex = true;
             col.sharedMesh = matchable.GetComponentInChildren<MeshFilter>().sharedMesh;
             col.transform.localScale = matchable.transform.localScale;
+            col.gameObject.layer = LayerMask.NameToLayer("Default");
             matchableBase.col = col;
             Object.DestroyImmediate(matchableBase.col.gameObject.GetComponent<SphereCollider>());
+            var trig = Object.Instantiate(col, matchableBase.transform);
+            trig.name = "Trigger";
+            trig.transform.localScale *= 1.25f;
+            matchableBase.trig = trig; //trigger will require position tweak
             List += selected.name + ",\n";
             matchableBase.name = selected.name;
         }

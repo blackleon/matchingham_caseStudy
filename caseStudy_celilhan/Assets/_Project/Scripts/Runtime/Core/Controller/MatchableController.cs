@@ -12,6 +12,7 @@ namespace _Project.Scripts.Runtime.Core.Controller
         public MatchableKey Key;
         public Rigidbody rig;
         public Collider col;
+        public Collider trig;
 
         public Transform visual;
         [HideInInspector] public int id;
@@ -23,7 +24,7 @@ namespace _Project.Scripts.Runtime.Core.Controller
         private void Awake()
         {
             id = gameObject.GetHashCode();
-            gameObjects = gameObject.GetComponentsInChildren<Transform>();
+            gameObjects = visual.gameObject.GetComponentsInChildren<Transform>();
         }
 
         private void OnEnable()
@@ -38,10 +39,10 @@ namespace _Project.Scripts.Runtime.Core.Controller
             CoreEvents.MatchableSelected -= OnMatchableSelected;
         }
 
-        private void OnMatchClickInput(Collider _col) //mouse over event for matchable
+        private void OnMatchClickInput(Collider _trig) //mouse over event for matchable
         {
-            if(placed) return;
-            if (_col != col)
+            if (placed) return;
+            if (_trig != trig)
             {
                 if (!DOTween.IsTweening("spinMatchable" + id)) return;
 
@@ -50,7 +51,8 @@ namespace _Project.Scripts.Runtime.Core.Controller
                 visual.DOLocalMove(Vector3.zero, 0.1f).SetId("moveMatchableReset" + id);
                 visual.DOLocalRotate(Vector3.zero, 0.1f, RotateMode.FastBeyond360).SetId("spinMatchableReset" + id)
                     .OnComplete(() => rig.isKinematic = false);
-                visual.GetChild(0).DOLocalRotate(Vector3.zero, 0.1f, RotateMode.FastBeyond360).SetId("spinMatchableReset" + id);
+                visual.GetChild(0).DOLocalRotate(Vector3.zero, 0.1f, RotateMode.FastBeyond360)
+                    .SetId("spinMatchableReset" + id);
 
                 return;
             }
@@ -64,18 +66,21 @@ namespace _Project.Scripts.Runtime.Core.Controller
             visual.DOMove(pos, 0.25f).SetId("moveMatchable" + id);
             visual.DORotate(
                 Quaternion.LookRotation(GameData.Cam.transform.up + GameData.Cam.transform.forward,
-                    GameData.Cam.transform.up - GameData.Cam.transform.forward).eulerAngles, 0.25f, RotateMode.FastBeyond360).SetId("spinMatchable" + id).OnComplete(
+                    GameData.Cam.transform.up - GameData.Cam.transform.forward).eulerAngles, 0.25f,
+                RotateMode.FastBeyond360).SetId("spinMatchable" + id).OnComplete(
                 () =>
                 {
-                    visual.GetChild(0).DOLocalRotate(Vector3.up * (Random.Range(0, 2) == 0 ? -360f : 360f), 5f, RotateMode.FastBeyond360)
-                        .SetRelative().SetEase(Ease.Linear).SetLoops(-1, LoopType.Incremental).SetId("spinMatchable" + id);
+                    visual.GetChild(0).DOLocalRotate(Vector3.up * (Random.Range(0, 2) == 0 ? -360f : 360f), 5f,
+                            RotateMode.FastBeyond360)
+                        .SetRelative().SetEase(Ease.Linear).SetLoops(-1, LoopType.Incremental)
+                        .SetId("spinMatchable" + id);
                 });
         }
 
-        private void OnMatchableSelected(Collider _col) //mouse up event for matchable
+        private void OnMatchableSelected(Collider _trig) //mouse up event for matchable
         {
-            if(placed) return;
-            if (_col != col)
+            if (placed) return;
+            if (_trig != trig)
             {
                 rig.WakeUp();
                 DOTween.Kill("moveMatchable" + id);
@@ -84,13 +89,15 @@ namespace _Project.Scripts.Runtime.Core.Controller
             }
 
             rig.isKinematic = true;
+            trig.enabled = false;
             col.enabled = false;
             DOTween.Kill("moveMatchable" + id);
             DOTween.Kill("spinMatchable" + id);
 
             visual.DOScale(0.5f, 0.1f).SetId("moveMatchableReset" + id);
             visual.DOLocalMove(Vector3.zero, 0.1f).SetId("moveMatchableReset" + id);
-            visual.GetChild(0).DOLocalRotate(Vector3.zero, 0.1f, RotateMode.FastBeyond360).SetId("spinMatchableReset" + id);
+            visual.GetChild(0).DOLocalRotate(Vector3.zero, 0.1f, RotateMode.FastBeyond360)
+                .SetId("spinMatchableReset" + id);
 
             placed = true;
 
@@ -115,7 +122,9 @@ namespace _Project.Scripts.Runtime.Core.Controller
             placed = false;
 
             rig.isKinematic = false;
+            trig.enabled = true;
             col.enabled = true;
+            
 
             foreach (var child in gameObjects)
                 child.gameObject.layer = LayerMask.NameToLayer("Matchable");

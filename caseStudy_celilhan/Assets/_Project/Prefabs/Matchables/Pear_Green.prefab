@@ -1,5 +1,51 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3737296293083795282
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7213553770879151478}
+  - component: {fileID: 6788361240746692702}
+  m_Layer: 6
+  m_Name: Trigger
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7213553770879151478
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3737296293083795282}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.711, z: 0}
+  m_LocalScale: {x: 4.475, y: 4.475, z: 4.475}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 7978069756598103836}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!64 &6788361240746692702
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3737296293083795282}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 4300000, guid: d034987fd4dcc974fb4425109178a5e1, type: 3}
 --- !u!1 &7978069756598103833
 GameObject:
   m_ObjectHideFlags: 0
@@ -32,6 +78,7 @@ Transform:
   m_Children:
   - {fileID: 7978069757532154101}
   - {fileID: 7978069756822514975}
+  - {fileID: 7213553770879151478}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -66,6 +113,7 @@ MonoBehaviour:
   Key: 5
   rig: {fileID: 7978069756598103839}
   col: {fileID: 7978069756822514974}
+  trig: {fileID: 6788361240746692702}
   visual: {fileID: 7978069757532154101}
   id: 0
   matched: 0
@@ -81,7 +129,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7978069756822514975}
   - component: {fileID: 7978069756822514974}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -96,8 +144,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7978069756822514969}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 3.0600002, y: 3.0600002, z: 3.0600002}
+  m_LocalPosition: {x: 0, y: -0.551, z: 0}
+  m_LocalScale: {x: 3.58, y: 3.58, z: 3.58}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 7978069756598103836}
@@ -175,8 +223,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7978069757960767279}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 3.0600002, y: 3.0600002, z: 3.0600002}
+  m_LocalPosition: {x: 0, y: -0.551, z: 0}
+  m_LocalScale: {x: 3.58, y: 3.58, z: 3.58}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 7978069757532154101}
