@@ -8,6 +8,7 @@ Unity project is located in caseStudy_celilhan directory. Once you open the proj
 -Open "!Game" scene under "Assets/_Project/Scenes" directory and hit play
 
 There are 20 fruits implemented in the game. The game starts with 3 types of fruits at level 1 and reaches maximum amount at level 17.
+To start over in the editor you can click intLeon/DeleteData from the top menu.
 
 Assets Used:
 Dotween
