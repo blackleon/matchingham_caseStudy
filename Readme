@@ -1,6 +1,11 @@
 This is a case study project where I tried to clone "Food Match 3D: Tile Puzzle", a casual game relased by Matchingham Games.
 Reference game Link: https://play.google.com/store/apps/details?id=com.matchingham.m3dcooking
 
+Editor Play Instructions:
+-Switch platform to Android
+-Switch to a portrait resolution from the game window
+-Open "!Game" scene under "Assets/_Project/Scenes" directory and hit play
+
 There are 20 fruits implemented in the game. The game starts with 3 types of fruits at level 1 and reaches maximum amount at level 17.
 
 Assets Used:
