@@ -11,12 +11,12 @@ There are 20 fruits implemented in the game. The game starts with 3 types of fru
 To start over in the editor you can click intLeon/DeleteData from the top menu.
 
 Assets Used:
-Dotween
+DoTween
 Fruit Market (2.0)
 
 Custom Packages:
 cysharp.unitask
 com.google (external dependency manager for unity)
 
-Figma UI Link (Im not a designer 😅):
+Figma UI Link (I'm not a designer 😅):
 https://www.figma.com/file/Q0faeeYGXRW8M8BzpUBbyb/food-match-3D?node-id=0%3A1&t=blzmTVBpG3DLPzL5-1
