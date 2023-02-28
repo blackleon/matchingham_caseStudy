@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace _Project.Scripts.Runtime.Utils.Mono
 {
-    public class Pool : MonoBehaviour
+    public class Pool : MonoBehaviour //pool to get and return objects just by their gameObject names
     {
         [SerializeField] private List<Pair<string, Pair<GameObject, int>>> serializedPool;
         private Dictionary<string, GameObject> poolObjects;

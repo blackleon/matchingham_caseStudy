@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace _Project.Scripts.Runtime.Core.Managers
 {
-    public class UIManager : MonoBehaviour
+    public class UIManager : MonoBehaviour //generic UI class that listens to setUI action
     {
         [SerializeField] private List<Pair<UIKey, UIBase>> serializedUIs;
         private Dictionary<UIKey, UIBase> UIs;
@@ -21,8 +21,8 @@ namespace _Project.Scripts.Runtime.Core.Managers
 
         private void Start()
         {
-            foreach (var UI in UIs)
-                UIEvents.SetUI?.Invoke(UI.Key, UI.Key == UIKey.Splash);
+            foreach (var ui in UIs)
+                UIEvents.SetUI?.Invoke(ui.Key, ui.Key == UIKey.Splash);
         }
 
         private void OnEnable()

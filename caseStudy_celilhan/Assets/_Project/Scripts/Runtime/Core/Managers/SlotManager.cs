@@ -12,7 +12,7 @@ using UnityEngine.UI;
 
 namespace _Project.Scripts.Runtime.Core.Managers
 {
-    public class SlotManager : MonoBehaviour
+    public class SlotManager : MonoBehaviour //slot 3D space UI controller
     {
         [SerializeField] private RectTransform canvas;
         [SerializeField] private RectTransform spawnRoot;
@@ -22,6 +22,7 @@ namespace _Project.Scripts.Runtime.Core.Managers
         [SerializeField] private TextMeshProUGUI comboCount;
 
         public static List<Transform> Slots;
+
         private Dictionary<Transform, MatchableController> slotPairs;
         private bool destroyed;
 
@@ -75,27 +76,26 @@ namespace _Project.Scripts.Runtime.Core.Managers
 
         private async void OnSetUI(UIKey key, bool state)
         {
-            if (key == UIKey.Main)
+            if (key != UIKey.Main) return;
+            if (state)
             {
-                if (state)
-                {
-                    comboCount.text = GameData.ComboCount + "<size=100>x</size>";
-                    gameObject.SetActive(true);
-                }
-                else
-                {
-                    DOTween.Kill("comboReset");
-                    comboCount.transform.localScale = Vector3.one;
-                    comboFill.transform.localScale = Vector3.one;
+                comboCount.text = GameData.ComboCount + "<size=100>x</size>";
+                gameObject.SetActive(true);
+            }
+            else
+            {
+                DOTween.Kill("comboReset");
+                comboCount.transform.localScale = Vector3.one;
+                comboFill.transform.localScale = Vector3.one;
 
-                    comboCount.text = "";
-                    DOTween.To(() => comboFill.fillAmount, x => comboFill.fillAmount = x, 0f, 0.75f).SetEase(Ease.Linear);
+                comboCount.text = "";
+                DOTween.To(() => comboFill.fillAmount, x => comboFill.fillAmount = x, 0f, 0.25f)
+                    .SetEase(Ease.Linear);
 
-                    await UniTask.Delay(System.TimeSpan.FromSeconds(1f));
-                    if (destroyed) return;
+                await UniTask.Delay(System.TimeSpan.FromSeconds(0.25f));
+                if (destroyed) return;
 
-                    gameObject.SetActive(false);
-                }
+                gameObject.SetActive(false);
             }
         }
 
@@ -107,10 +107,11 @@ namespace _Project.Scripts.Runtime.Core.Managers
 
             foreach (var child in matchable.gameObjects)
                 child.gameObject.layer = LayerMask.NameToLayer("InSlot");
-            
+
             matchable.transform.DOMove(slot.position - slot.forward * 0.25f - slot.up * 0.25f, 0.1f)
                 .SetId("moveSlot" + matchable.id);
-            matchable.visual.DORotate(Quaternion.LookRotation(transform.forward + transform.right, transform.up).eulerAngles, 0.1f)
+            matchable.visual
+                .DORotate(Quaternion.LookRotation(transform.forward + transform.right, transform.up).eulerAngles, 0.1f)
                 .SetId("moveSlot" + matchable.id);
             slotPairs[Slots[target]] = matchable;
         }

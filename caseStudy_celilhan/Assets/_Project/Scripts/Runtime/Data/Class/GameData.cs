@@ -27,7 +27,9 @@ namespace _Project.Scripts.Runtime.Data.Class
 
         public static int TripleCount;
         public static int SucceededTripleCount;
-        public static int MatchableSlotCount = 7;
+
+        public const int MatchableSlotCount = 7;
+
         public static List<MatchableKey> PlacedMatchableList;
         public static float StartTimer;
         public static float TimeLimit;
@@ -66,7 +68,7 @@ namespace _Project.Scripts.Runtime.Data.Class
             Reset();
         }
 
-        public async static void Reset()
+        public static async void Reset()
         {
             State = GameState.Stop;
             SucceededTripleCount = 0;

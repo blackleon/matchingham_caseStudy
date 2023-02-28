@@ -18,7 +18,7 @@ namespace _Project.Scripts.Runtime.Data.Class
             var change = _money - money;
             money = _money;
             PlayerPrefs.SetInt("Money", money);
-            CoreEvents.Moneychanged?.Invoke(change, pos);
+            CoreEvents.MoneyChanged?.Invoke(change, pos);
         }
 
         public static int GetMoney()

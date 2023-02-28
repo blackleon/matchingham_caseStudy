@@ -23,14 +23,14 @@ namespace _Project.Scripts.Runtime.Core.UI
         private void OnEnable()
         {
             settings.onClick.AddListener(OnSettingsClicked);
-            CoreEvents.Moneychanged += OnMoneyChanged;
+            CoreEvents.MoneyChanged += OnMoneyChanged;
             UIEvents.UpdateTimer += OnUpdateTimer;
         }
 
         private void OnDisable()
         {
             settings.onClick.RemoveListener(OnSettingsClicked);
-            CoreEvents.Moneychanged -= OnMoneyChanged;
+            CoreEvents.MoneyChanged -= OnMoneyChanged;
             UIEvents.UpdateTimer -= OnUpdateTimer;
         }
 
@@ -39,7 +39,7 @@ namespace _Project.Scripts.Runtime.Core.UI
             UIEvents.SetUI?.Invoke(UIKey.Settings, true);
         }
 
-        private async void OnMoneyChanged(int change, Vector3 source)
+        private async void OnMoneyChanged(int change, Vector3 source) //generate coin object and move to related position in UI
         {
             if (change > 0)
             {

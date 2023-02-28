@@ -6,5 +6,7 @@
         Splash,
         Main,
         Settings,
+        Success,
+        Fail,
     }
 }

@@ -7,10 +7,11 @@ using UnityEngine.SceneManagement;
 
 namespace _Project.Scripts.Runtime.Core.Managers
 {
-    public class GameManager : MonoBehaviour
+    public class GameManager : MonoBehaviour //Game Core Starts Here
     {
         private void Awake()
         {
+            //Init Data
             PlayerData.Init();
             GameData.Init();
         }
@@ -28,34 +29,22 @@ namespace _Project.Scripts.Runtime.Core.Managers
         private async void Start()
         {
             await UniTask.Delay(System.TimeSpan.FromSeconds(0.5f));
+            UIEvents.SetUI?.Invoke(UIKey.Splash, false);
 
             CoreEvents.LoadScene?.Invoke();
         }
 
-        private async void OnLoadScene()
+        private async void OnLoadScene() //Load Game Scene
         {
             await SceneManager.LoadSceneAsync("Game");
 
             Init();
         }
 
-        private void Init()
+        private void Init() //Init data and game states
         {
             GameData.Reset();
-
-            ResetUI();
-            GameData.State = GameState.Play;
-        }
-
-        private async void ResetUI()
-        {
-            await UniTask.Yield();
-
-            UIEvents.SetUI?.Invoke(UIKey.Splash, false);
-
-            await UniTask.Delay(System.TimeSpan.FromSeconds(1f));
-
-            UIEvents.SetUI?.Invoke(UIKey.Main, true);
+            GameData.State = GameState.Stop;
         }
     }
 }

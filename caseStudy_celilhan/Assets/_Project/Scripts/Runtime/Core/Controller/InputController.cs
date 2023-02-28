@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 
 namespace _Project.Scripts.Runtime.Core.Controller
 {
-    public class InputController : MonoBehaviour
+    public class InputController : MonoBehaviour //in game match input manager
     {
         [SerializeField] private LayerMask matchableMask;
         private bool active;

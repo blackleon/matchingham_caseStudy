@@ -2,7 +2,6 @@
 using _Project.Scripts.Runtime.Core.Events;
 using _Project.Scripts.Runtime.Data.Class;
 using _Project.Scripts.Runtime.Enums;
-using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
 
@@ -16,8 +15,8 @@ namespace _Project.Scripts.Runtime.Core.Controller
 
         public Transform visual;
         [HideInInspector] public int id;
-        [HideInInspector] public bool matched;
-        [HideInInspector] public bool placed;
+        public bool matched;
+        public bool placed;
 
         [HideInInspector] public Transform[] gameObjects;
 
@@ -39,7 +38,7 @@ namespace _Project.Scripts.Runtime.Core.Controller
             CoreEvents.MatchableSelected -= OnMatchableSelected;
         }
 
-        private void OnMatchClickInput(Collider _col)
+        private void OnMatchClickInput(Collider _col) //mouse over event for matchable
         {
             if(placed) return;
             if (_col != col)
@@ -73,7 +72,7 @@ namespace _Project.Scripts.Runtime.Core.Controller
                 });
         }
 
-        private async void OnMatchableSelected(Collider _col)
+        private void OnMatchableSelected(Collider _col) //mouse up event for matchable
         {
             if(placed) return;
             if (_col != col)
@@ -98,7 +97,7 @@ namespace _Project.Scripts.Runtime.Core.Controller
             GameLogic.AddMatchableToSlot(this);
         }
 
-        public void ReturnToPool()
+        public void ReturnToPool() //tween reset method when added to pool
         {
             DOTween.Kill("moveMatchableReset" + id);
             DOTween.Kill("spinMatchableReset" + id);
@@ -108,7 +107,7 @@ namespace _Project.Scripts.Runtime.Core.Controller
             DOTween.Kill("matched" + id);
         }
 
-        public void ResetMatchable()
+        public void ResetMatchable() //reset method when taken out of pool
         {
             ReturnToPool();
 

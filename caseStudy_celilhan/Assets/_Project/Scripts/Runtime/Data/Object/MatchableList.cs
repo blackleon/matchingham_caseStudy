@@ -6,7 +6,7 @@ using UnityEngine;
 namespace _Project.Scripts.Runtime.Data.Object
 {
     [CreateAssetMenu(menuName = "intLeon/matchableList", fileName = "matchableList")]
-    public class MatchableList : ScriptableObject
+    public class MatchableList : ScriptableObject //List of matchable objects and their pool names
     {
         [SerializeField] private List<Pair<MatchableKey, string>> serializedMatchableList;
 

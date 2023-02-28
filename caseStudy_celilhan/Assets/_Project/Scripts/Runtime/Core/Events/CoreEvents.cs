@@ -8,7 +8,7 @@ namespace _Project.Scripts.Runtime.Core.Events
     {
         public static UnityAction LoadScene;
 
-        public static UnityAction<int, Vector3> Moneychanged;
+        public static UnityAction<int, Vector3> MoneyChanged;
 
         public static UnityAction<Collider> MatchClickInput;
         public static UnityAction<Collider> MatchableSelected;

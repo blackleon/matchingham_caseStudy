@@ -9,9 +9,9 @@ using UnityEngine;
 
 namespace _Project.Scripts.Runtime.Core.Class
 {
-    public class GameLogic
+    public class GameLogic //non player game mechanics
     {
-        public static async void StartTimer(float timeLimit)
+        public static async void StartTimer(float timeLimit) //start countdown timer
         {
             GameData.TimeLimit = timeLimit;
             GameData.StartTimer = Time.timeSinceLevelLoad;
@@ -33,14 +33,14 @@ namespace _Project.Scripts.Runtime.Core.Class
                 {
                     await UniTask.WaitUntil(() => GameData.State == GameState.Play);
                 }
-                else if (GameData.State == GameState.Stop || GameData.State == GameState.End)
+                else if (GameData.State is GameState.Stop or GameState.End)
                 {
                     break;
                 }
             }
         }
 
-        public static async void AddMatchableToSlot(MatchableController matchable)
+        public static async void AddMatchableToSlot(MatchableController matchable) //add matchable to a slot after its selected
         {
             GameData.PlacedMatchableList.Add(matchable.Key);
             var placeIndex = GameData.PlacedMatchableList.Count - 1;
@@ -93,7 +93,7 @@ namespace _Project.Scripts.Runtime.Core.Class
                 Fail();
         }
 
-        private static bool CheckMatches()
+        private static bool CheckMatches() //check if any matchable objects have matched
         {
             if (GameData.PlacedMatchableList.Count <= 0) return false;
             var key = GameData.PlacedMatchableList[0];
@@ -131,7 +131,7 @@ namespace _Project.Scripts.Runtime.Core.Class
                                 PlayerData.SetMoney(PlayerData.GetMoney() + (1 + GameData.ComboCount), source);
                                 GameData.ComboCount++;
                                 if (GameData.SucceededTripleCount >= GameData.TripleCount)
-                                    Win();
+                                    Success();
 
                                 return true;
                             }
@@ -153,21 +153,23 @@ namespace _Project.Scripts.Runtime.Core.Class
             return false;
         }
 
-        private static void Fail()
+        private static async void Fail() //fail method
         {
             Debug.Log("Fail!");
-            End();
+            await End();
+
+            UIEvents.SetUI?.Invoke(UIKey.Fail, true);
         }
 
-        private static void Win()
+        private static async void Success() //win method
         {
-            PlayerData.Level++;
+            Debug.Log("Success!");
+            await End();
 
-            Debug.Log("Win!");
-            End();
+            UIEvents.SetUI?.Invoke(UIKey.Success, true);
         }
 
-        private static async void End()
+        private static async UniTask End() //generic end method
         {
             GameData.State = GameState.End;
             Time.timeScale = 1f;
@@ -176,10 +178,8 @@ namespace _Project.Scripts.Runtime.Core.Class
 
             UIEvents.SetUI?.Invoke(UIKey.Main, false);
             UIEvents.SetUI?.Invoke(UIKey.Settings, false);
-
-            await UniTask.Delay(System.TimeSpan.FromSeconds(1f));
-
-            CoreEvents.LoadScene?.Invoke();
+            
+            await UniTask.Delay(System.TimeSpan.FromSeconds(0.25f));
         }
     }
 }

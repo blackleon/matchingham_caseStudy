@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using _Project.Scripts.Runtime.Core.Class;
 using _Project.Scripts.Runtime.Core.Controller;
+using _Project.Scripts.Runtime.Core.Events;
 using _Project.Scripts.Runtime.Data.Class;
 using _Project.Scripts.Runtime.Enums;
 using _Project.Scripts.Runtime.Utils.Mono;
@@ -14,16 +15,16 @@ namespace _Project.Scripts.Runtime.Core.Managers
         [SerializeField] private Vector2 size;
         [SerializeField] private List<MatchableKey> matchableListToSpawn;
 
-        private void Start()
+        private async void Start()
         {
-            SpawnMatchables();
+            SpawnMatchable();
         }
 
-        private async void SpawnMatchables()
+        private async void SpawnMatchable() //Spawn matchable objects in random positions
         {
             GameData.TripleCount = Mathf.Min(matchableListToSpawn.Count, PlayerData.Level + 3);
 
-            await UniTask.Delay(System.TimeSpan.FromSeconds(0.5f));
+            await UniTask.Delay(System.TimeSpan.FromSeconds(0.1f));
 
             var randomSpawn = new List<MatchableKey>();
             for (var i = 0; i < Mathf.Min(matchableListToSpawn.Count, PlayerData.Level + 3); i++)
@@ -47,13 +48,17 @@ namespace _Project.Scripts.Runtime.Core.Managers
                 matchable.gameObject.SetActive(true);
                 matchable.rig.AddForce(Vector3.up * -5f, ForceMode.VelocityChange);
 
-                await UniTask.Delay(System.TimeSpan.FromSeconds(0.025f));
+                await UniTask.Delay(System.TimeSpan.FromSeconds(0.01f));
             }
 
+            UIEvents.SetUI?.Invoke(UIKey.Main, true);
+            await UniTask.WaitUntil(() => Input.GetMouseButtonDown(0));
+
             GameLogic.StartTimer(GameData.TripleCount * 10f);
+            GameData.State = GameState.Play;
         }
 
-        private List<MatchableKey> Shuffle(List<MatchableKey> list)
+        private List<MatchableKey> Shuffle(List<MatchableKey> list) //shuffle matchable keys to spawn more random
         {
             for (var i = list.Count - 1; i > 0; i--)
             {

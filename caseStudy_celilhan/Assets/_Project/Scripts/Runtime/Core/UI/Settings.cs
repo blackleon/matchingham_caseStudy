@@ -9,14 +9,18 @@ namespace _Project.Scripts.Runtime.Core.UI
 {
     public class Settings : UIBase
     {
+        [Header("Buttons")]
         [SerializeField] private Button audioButton;
         [SerializeField] private Button hapticButton;
         [SerializeField] private Button resume;
         [SerializeField] private Button close;
         [SerializeField] private Button bg;
 
+        [Header("Toggle Boxes")]
         [SerializeField] private Image audioBox;
         [SerializeField] private Image hapticBox;
+        
+        [Header("Design")]
         [SerializeField] private float toggleOffset;
         [SerializeField] private Color onColor;
         [SerializeField] private Color offColor;
