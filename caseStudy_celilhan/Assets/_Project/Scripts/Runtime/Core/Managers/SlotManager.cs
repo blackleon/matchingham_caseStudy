@@ -92,16 +92,16 @@ namespace _Project.Scripts.Runtime.Core.Managers
                 DOTween.To(() => comboFill.fillAmount, x => comboFill.fillAmount = x, 0f, 0.25f)
                     .SetEase(Ease.Linear);
 
+                foreach (var slotPair in slotPairs)
+                {
+                    if (slotPair.Value is not null)
+                        slotPair.Value.gameObject.SetActive(false);
+                }
+
                 await UniTask.Delay(System.TimeSpan.FromSeconds(0.25f));
                 if (destroyed) return;
 
                 gameObject.SetActive(false);
-
-                foreach (var slotPair in slotPairs)
-                {
-                    if (slotPair.Value is not null)
-                        Pool.Return(slotPair.Value.gameObject);
-                }
             }
         }
 

@@ -22,6 +22,7 @@ namespace _Project.Scripts.Runtime.Core.Managers
 
         private async void SpawnMatchable() //Spawn matchable objects in random positions
         {
+            var spawnCount = 0;
             GameData.TripleCount = Mathf.Min(matchableListToSpawn.Count, PlayerData.Level + 3);
 
             await UniTask.Delay(System.TimeSpan.FromSeconds(0.1f));
@@ -35,9 +36,10 @@ namespace _Project.Scripts.Runtime.Core.Managers
 
             randomSpawn = Shuffle(randomSpawn);
 
-            foreach (var matchableKey in randomSpawn)
+            for (var i = randomSpawn.Count - 1; i > -1; i--)
             {
-                var matchable = Pool.Get(GameData.GetMatchablePoolKey(matchableKey), transform)
+                spawnCount++;
+                var matchable = Pool.Get(GameData.GetMatchablePoolKey(randomSpawn[i]), transform)
                     .GetComponent<MatchableController>();
                 matchable.ResetMatchable();
 
@@ -51,6 +53,7 @@ namespace _Project.Scripts.Runtime.Core.Managers
                 await UniTask.Delay(System.TimeSpan.FromSeconds(0.01f));
             }
 
+            Debug.Log(spawnCount % 3);
             UIEvents.SetUI?.Invoke(UIKey.Main, true);
             await UniTask.WaitUntil(() => Input.GetMouseButtonDown(0));
 

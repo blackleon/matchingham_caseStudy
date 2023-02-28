@@ -6,6 +6,7 @@ using _Project.Scripts.Runtime.Enums;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace _Project.Scripts.Runtime.Core.Class
 {
@@ -40,7 +41,8 @@ namespace _Project.Scripts.Runtime.Core.Class
             }
         }
 
-        public static async void AddMatchableToSlot(MatchableController matchable) //add matchable to a slot after its selected
+        public static async void
+            AddMatchableToSlot(MatchableController matchable) //add matchable to a slot after its selected
         {
             GameData.PlacedMatchableList.Add(matchable.Key);
             var placeIndex = GameData.PlacedMatchableList.Count - 1;
@@ -75,6 +77,7 @@ namespace _Project.Scripts.Runtime.Core.Class
 
             CoreEvents.MatchablePlaced?.Invoke(matchable, placeIndex);
 
+            GameData.InputEnabled = false;
             while (true)
             {
                 var wasMatchFound = CheckMatches();
@@ -88,6 +91,8 @@ namespace _Project.Scripts.Runtime.Core.Class
                     break;
                 }
             }
+
+            GameData.InputEnabled = true;
 
             if (GameData.PlacedMatchableList.Count >= GameData.MatchableSlotCount)
                 Fail();
@@ -114,15 +119,13 @@ namespace _Project.Scripts.Runtime.Core.Class
                                     GameData.PlacedMatchableList.RemoveAt(i + k);
                                     var index = i + k;
                                     var targetIndex = i + 1;
-                                    DOVirtual.DelayedCall(0.1f,
-                                        () => CoreEvents.MatchableRemoved?.Invoke(index, targetIndex));
+                                    CoreEvents.MatchableRemoved?.Invoke(index, targetIndex);
                                 }
 
                                 for (var k = i; k < GameData.PlacedMatchableList.Count; k++)
                                 {
                                     var index = k;
-                                    DOVirtual.DelayedCall(0.1f,
-                                        () => CoreEvents.MatchableMoved?.Invoke(index + 3, index, true));
+                                    CoreEvents.MatchableMoved?.Invoke(index + 3, index, true);
                                 }
 
                                 GameData.SucceededTripleCount++;
@@ -132,7 +135,6 @@ namespace _Project.Scripts.Runtime.Core.Class
                                 GameData.ComboCount++;
                                 if (GameData.SucceededTripleCount >= GameData.TripleCount)
                                     Success();
-
                                 return true;
                             }
 
@@ -178,7 +180,7 @@ namespace _Project.Scripts.Runtime.Core.Class
 
             UIEvents.SetUI?.Invoke(UIKey.Main, false);
             UIEvents.SetUI?.Invoke(UIKey.Settings, false);
-            
+
             await UniTask.Delay(System.TimeSpan.FromSeconds(0.25f));
         }
     }

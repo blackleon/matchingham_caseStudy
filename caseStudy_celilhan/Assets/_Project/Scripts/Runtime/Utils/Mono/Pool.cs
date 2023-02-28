@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using _Project.Scripts.Runtime.Core.Events;
 using _Project.Scripts.Runtime.Utils.Class;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 namespace _Project.Scripts.Runtime.Utils.Mono
@@ -42,9 +43,10 @@ namespace _Project.Scripts.Runtime.Utils.Mono
             CoreEvents.LoadScene -= OnLoadScene;
         }
 
-        private void OnLoadScene()
+        private async void OnLoadScene()
         {
-            for(var i = givenObjects.Count - 1; i > -1; i--)
+            await UniTask.Yield();
+            for (var i = givenObjects.Count - 1; i > -1; i--)
                 Return(givenObjects[i]);
         }
 
@@ -65,7 +67,6 @@ namespace _Project.Scripts.Runtime.Utils.Mono
             }
 
             instance.givenObjects.Add(obj);
-
             return obj;
         }
 
@@ -74,11 +75,11 @@ namespace _Project.Scripts.Runtime.Utils.Mono
             obj.SetActive(false);
             if (instance.pool.ContainsKey(obj.name))
             {
+                if (!instance.givenObjects.Contains(obj)) return;
+
+                instance.givenObjects.Remove(obj);
                 instance.pool[obj.name].Enqueue(obj);
                 obj.transform.parent = instance.transform;
-
-                if (instance.givenObjects.Contains(obj))
-                    instance.givenObjects.Remove(obj);
             }
             else if (destroyIfKeyIsNotPresent)
             {
