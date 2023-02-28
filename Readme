@@ -2,6 +2,7 @@ This is a case study project where I tried to clone "Food Match 3D: Tile Puzzle"
 Reference game Link: https://play.google.com/store/apps/details?id=com.matchingham.m3dcooking
 
 Editor Play Instructions:
+Unity project is located in caseStudy_celilhan directory. Once you open the project;
 -Switch platform to Android
 -Switch to a portrait resolution from the game window
 -Open "!Game" scene under "Assets/_Project/Scenes" directory and hit play
