@@ -4406,7 +4406,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: SUCESS
+  m_text: SUCCESS
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 1732484374902bd46ab51c432b522cd3, type: 2}
   m_sharedMaterial: {fileID: -5781576912423308897, guid: 1732484374902bd46ab51c432b522cd3, type: 2}
