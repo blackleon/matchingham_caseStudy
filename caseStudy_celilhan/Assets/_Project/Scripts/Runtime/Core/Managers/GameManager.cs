@@ -12,6 +12,7 @@ namespace _Project.Scripts.Runtime.Core.Managers
         private void Awake()
         {
             //Init Data
+            Application.targetFrameRate = 60;
             PlayerData.Init();
             GameData.Init();
         }
