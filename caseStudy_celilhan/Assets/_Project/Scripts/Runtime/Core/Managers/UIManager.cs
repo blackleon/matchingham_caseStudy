@@ -1,22 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using _Project.Scripts.Runtime.Core.Events;
 using _Project.Scripts.Runtime.Core.UI;
 using _Project.Scripts.Runtime.Enums;
+using _Project.Scripts.Runtime.Utils.Class;
 using UnityEngine;
 
 namespace _Project.Scripts.Runtime.Core.Managers
 {
     public class UIManager : MonoBehaviour //generic UI class that listens to setUI action
     {
-        [SerializeField] private List<Tuple<UIKey, UIBase>> serializedUIs;
+        [SerializeField] private List<Pair<UIKey, UIBase>> serializedUIs;
         private Dictionary<UIKey, UIBase> UIs;
 
         private void Awake()
         {
             UIs = new Dictionary<UIKey, UIBase>();
             foreach (var serializedUI in serializedUIs)
-                UIs.Add(serializedUI.Item1, serializedUI.Item2);
+                UIs.Add(serializedUI.Value1, serializedUI.Value2);
         }
 
         private void Start()

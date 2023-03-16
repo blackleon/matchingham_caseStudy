@@ -1,6 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using _Project.Scripts.Runtime.Core.Events;
+using _Project.Scripts.Runtime.Utils.Class;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
@@ -8,7 +8,7 @@ namespace _Project.Scripts.Runtime.Utils.Mono
 {
     public class Pool : MonoBehaviour //pool to get and return objects just by their gameObject names
     {
-        [SerializeField] private List<Tuple<string, Tuple<GameObject, int>>> serializedPool;
+        [SerializeField] private List<Pair<string, Pair<GameObject, int>>> serializedPool;
         private Dictionary<string, GameObject> poolObjects;
         private Dictionary<string, Queue<GameObject>> pool;
         private List<GameObject> givenObjects;
@@ -23,11 +23,11 @@ namespace _Project.Scripts.Runtime.Utils.Mono
             pool = new Dictionary<string, Queue<GameObject>>();
             foreach (var serializedPair in serializedPool)
             {
-                poolObjects.Add(serializedPair.Item1, serializedPair.Item2.Item1);
-                pool.Add(serializedPair.Item1, new Queue<GameObject>());
+                poolObjects.Add(serializedPair.Value1, serializedPair.Value2.Value1);
+                pool.Add(serializedPair.Value1, new Queue<GameObject>());
 
-                for (var i = 0; i < serializedPair.Item2.Item2; i++)
-                    SpawnObject(serializedPair.Item1);
+                for (var i = 0; i < serializedPair.Value2.Value2; i++)
+                    SpawnObject(serializedPair.Value1);
             }
 
             givenObjects = new List<GameObject>();
