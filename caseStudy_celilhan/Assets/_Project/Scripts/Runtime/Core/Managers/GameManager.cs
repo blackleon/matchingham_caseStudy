@@ -37,7 +37,9 @@ namespace _Project.Scripts.Runtime.Core.Managers
 
         private async void OnLoadScene() //Load Game Scene
         {
-            await SceneManager.LoadSceneAsync("Game");
+            if (SceneManager.GetSceneByName("Game").isLoaded)
+                await SceneManager.UnloadSceneAsync("Game");
+            await SceneManager.LoadSceneAsync("Game", LoadSceneMode.Additive);
 
             Init();
         }
